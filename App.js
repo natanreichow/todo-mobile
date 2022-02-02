@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Home } from './src/Pages/Home';
+import { Home } from './src/pages/Home';
+import { TodoList } from './src/pages/TodoList';
+
 import {
   useFonts,
   Poppins_300Light,
@@ -28,6 +30,7 @@ export default function App() {
             headerShown: false
           }}>
             <Stack.Screen name='Home' component={Home} />
+            <Stack.Screen name='TodoList' component={TodoList} />
         </Stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>
