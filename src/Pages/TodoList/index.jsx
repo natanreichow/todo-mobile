@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Alert, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, Alert, Image, ActivityIndicator } from 'react-native';
 import { Input } from '../../components/Input';
 import * as Location from 'expo-location';
 import axios from 'axios';
@@ -44,6 +44,14 @@ export function TodoList() {
     }
   }, [location])
 
+  if(!weatherApiResponse?.data) {
+    return (
+      <View style={styles.loadingScreen}>
+        <ActivityIndicator size='large' color="#fff"/>
+      </View>
+    )
+  } 
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -51,19 +59,16 @@ export function TodoList() {
           <Text style={styles.title}>
             Good morning, 
           </Text>
-          {
-            weatherApiResponse?.data && (
-              <View style={styles.weatherData}>
-                <Text style={styles.weatherText}>
-                  {weatherApiResponse.data.current.condition.text}
-                </Text>
-                <Text style={styles.weatherText}>
-                  , {Math.floor(weatherApiResponse.data.current.temp_c)} °C
-                </Text>
-                <Image style={{ height: 50, width: 50 }} source={{uri: `https:${weatherApiResponse.data.current.condition.icon}` }} />
-              </View>
-            )
-          }
+          
+          <View style={styles.weatherData}>
+            <Text style={styles.weatherText}>
+              {weatherApiResponse.data.current.condition.text}
+            </Text>
+            <Text style={styles.weatherText}>
+              , {Math.floor(weatherApiResponse.data.current.temp_c)} °C
+            </Text>
+            <Image style={{ height: 50, width: 50 }} source={{uri: `https:${weatherApiResponse.data.current.condition.icon}` }} />
+          </View>
         </View>
 
         <View style={styles.bottomBox}>
@@ -90,6 +95,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#517BF9',
     justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+
+  loadingScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#517BF9',
     alignItems: 'center'
   },
 
